@@ -1,0 +1,23 @@
+const mongoose = require("mongoose");
+
+const Schema = mongoose.Schema;
+
+const PartInstanceSchema = new Schema({
+  part: { type: Schema.Types.ObjectId, ref: "Part", required: true }, // reference to the associated part
+  productID: { type: String, required: true },
+  status: {
+    type: String,
+    required: true,
+    enum: ["In Stock", "Sold"],
+    default: "In Stock",
+  },
+});
+
+// Virtual for Partinstance's URL
+PartInstanceSchema.virtual("url").get(function () {
+  // We don't use an arrow function as we'll need the this object
+  return `/catalog/partinstance/${this._id}`;
+});
+
+// Export model
+module.exports = mongoose.model("PartInstance", PartInstanceSchema);
