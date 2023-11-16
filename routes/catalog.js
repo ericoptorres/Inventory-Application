@@ -5,7 +5,6 @@ const router = express.Router()
 const part_controller = require('../controllers/partController')
 const part_instance_controller = require('../controllers/partInstanceController')
 const category_controller = require('../controllers/categoryController')
-const category = require('../models/category')
 
 /// PARTS ROUTES ///
 
@@ -56,3 +55,42 @@ router.get('/categories', category_controller.category_list)
 
 /// PARTINSTANCE ROUTES ///
 
+//GET request for creating PartIntances. This must come before routes that uses id's.
+router.get(
+    '/partinstance/create', 
+    part_instance_controller.partinstance_create_get,
+    )
+
+router.post(
+    '/partinstance/create',
+    part_instance_controller.partinstance_create_post,
+)
+
+router.get(
+    'partinstance/:id/delete',
+    part_instance_controller.partinstance_delete_get,
+)
+
+router.post(
+    'partinstance/:id/delete',
+    part_instance_controller.partinstance_delete_post,
+)
+
+router.get(
+    'partinstance/:id/update',
+    part_instance_controller.partinstance_update_get,
+)
+
+router.post(
+    'partinstance/:id/update',
+    part_instance_controller.partinstance_update_post,
+)
+
+//GET request for one PartInstance.
+router.get('/partinstance/:id', part_instance_controller.partinstance_detail)
+
+//GET request for list of all PartInstances.
+router.get('/partinstances', part_instance_controller.partinstance_list)
+
+
+module.exports = router;
