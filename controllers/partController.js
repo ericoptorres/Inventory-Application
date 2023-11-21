@@ -1,8 +1,31 @@
 const Part = require('../models/part')
+const PartInstance = require('../models/partinstance')
+const Category = require('../models/category')
+
 const asyncHandler = require('express-async-handler')
 
+
 exports.index = asyncHandler(async (req, res, next) => {
-    res.render('index')
+    //Get details of parts, part instances and categories
+    const [
+      numParts,
+      numPartIntances,
+      numInstockPartIntasnces,
+      numCategories
+    ] = await Promise.all([
+      Part.countDocuments({}.exec()),
+      PartInstance.countDocuments({}.exec()),
+      PartInstance.countDocuments({ status: "In Stock"}.exec()),
+      Category.countDocuments({}.exec())
+    ]);
+
+    res.render('index', {
+      title: "Store HomePage",
+      part_count: numParts,
+      part_instance_count: numPartIntances,
+      part_instance_instock_count: numInstockPartIntasnces,
+      category_count: numCategories
+    })
 })
 
 //Display list of all Part.
