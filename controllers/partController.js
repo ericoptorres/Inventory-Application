@@ -2,7 +2,7 @@ const Part = require('../models/part')
 const asyncHandler = require('express-async-handler')
 
 exports.index = asyncHandler(async (req, res, next) => {
-    res.send('To be implemented: Site Home Page')
+    res.render('index')
 })
 
 //Display list of all Part.
