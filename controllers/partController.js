@@ -13,14 +13,14 @@ exports.index = asyncHandler(async (req, res, next) => {
       numInstockPartIntasnces,
       numCategories
     ] = await Promise.all([
-      Part.countDocuments({}.exec()),
-      PartInstance.countDocuments({}.exec()),
-      PartInstance.countDocuments({ status: "In Stock"}.exec()),
-      Category.countDocuments({}.exec())
+      Part.countDocuments({}).exec(),
+      PartInstance.countDocuments({}).exec(),
+      PartInstance.countDocuments({ status: "In Stock"}).exec(),
+      Category.countDocuments({}).exec()
     ]);
 
     res.render('index', {
-      title: "Store HomePage",
+      title: "Store Home Page",
       part_count: numParts,
       part_instance_count: numPartIntances,
       part_instance_instock_count: numInstockPartIntasnces,
@@ -28,9 +28,18 @@ exports.index = asyncHandler(async (req, res, next) => {
     })
 })
 
-//Display list of all Part.
+//Display list of all Parts.
 exports.part_list = asyncHandler(async (req, res, next) => {
-  res.send("To be implemented: part list")  
+  const allParts = await Part.find({}, "name category")
+    .sort({name: 1})
+    .populate("category")
+    .exec();
+
+  res.render('part_list', {
+    title: "Part List",
+    part_list: allParts
+  })
+
 })
 
 //Display details of a specific part.

@@ -1,1 +1,25 @@
-<h1>Homepage</h1>
+
+<h1>
+    <%= title %>
+</h1>
+<p>This is a very basic Express website, emulating an inventory for a <strong>Computer Parts Store</strong> </p>
+
+<h1>Dynamic Content</h1>
+
+<p>The inventory currently has the following record count:</p>
+
+<ul>
+    <li>
+        <strong> Parts:</strong> <%= part_count %>
+    </li>
+    <li>
+        <strong> Products:</strong> <%= part_instance_count %>
+    </li>
+    <li>
+        <strong> Products in stock:</strong> <%= part_instance_instock_count %>
+    </li>
+    <li>
+        <strong> Categories:</strong> <%= category_count %>
+    </li>
+</ul>
+
