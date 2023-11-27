@@ -1,4 +1,5 @@
 const Category = require('../models/category')
+const Part = require('../models/part')
 const asyncHandler = require('express-async-handler')
 
 //Display list of all Categories.
@@ -15,7 +16,24 @@ exports.category_list = asyncHandler(async (req, res, next) => {
 
 //Display details of a specific category.
 exports.category_detail = asyncHandler(async (req, res, next) => {
-    res.send(`To be implemented: categ details ${req.params.id}`)  
+
+  const [category, partsInCategory] = await Promise.all([
+    Category.findById(req.params.id).exec(),
+    Part.find({category: req.params.id}, "name description").exec()
+  ])
+
+  if (category == null){
+    const err = new Error('Category not found')
+    err.status = 404
+    return next(err)
+  }
+
+  res.render('category_detail', {
+    title: 'Category Detail',
+    category: category,
+    category_parts: partsInCategory
+  })
+
   })
 
   //Display category create form.

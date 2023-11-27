@@ -1,0 +1,22 @@
+<h1> Category: <%= category.name %></h1>
+
+<div style="margin-left: 20px; margin-top: 20px;">
+    <h4> Parts</h4>
+
+    <% if (category_parts != '') { %>
+        <dl>
+            <% category_parts.forEach(part => { %>
+            <dt>
+                <a href=<%= part.url %>> <%= part.name  %> </a>
+            </dt>
+            <dd>
+                <%= part.description  %>
+            </dd>
+            <hr>
+            <% }) %>
+        </dl>
+        
+    <% } else {%>
+        <p>This category has no parts yet!</p>
+        <% } %>
+</div>
