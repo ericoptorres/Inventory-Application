@@ -3,7 +3,12 @@ const asyncHandler = require('express-async-handler')
 
 //Display list of all Part Instances.
 exports.partinstance_list = asyncHandler(async (req, res, next) => {
-  res.send("To be implemented: PartInstance list")  
+  const allPartInstances = await PartInstance.find().populate('part').exec()
+
+  res.render("partinstance_list", {
+    title: "Products List",
+    partinstance_list: allPartInstances,
+  })
 })
 
 //Display details of a specific partinstance.

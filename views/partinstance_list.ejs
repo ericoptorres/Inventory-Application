@@ -1,0 +1,29 @@
+<h1>
+    <%= title %>
+</h1>
+
+
+<ul>
+    <% if (partinstance_list != '') { %>
+        <%  partinstance_list.forEach(instance => { %>
+            <li>
+
+                <a href=<%= instance.url %>>
+                    <%= instance.part.name %> ID: <%= instance.productID %>
+                </a>
+
+                <% if (instance.status == 'In Stock') { %>
+                    - In Stock
+                <% }  else if (instance.status == 'Out of Stock') {%>
+                    - Out of Stock
+                    <% } %>
+
+            </li>
+            <% }) %>
+    <% } %>
+    
+
+</ul>
+
+
+
