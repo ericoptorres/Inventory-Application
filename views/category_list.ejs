@@ -1,0 +1,21 @@
+<h1>
+    <%= title %>
+</h1>
+
+
+<ul>
+    <% if (category_list != '') { %>
+        <%  category_list.forEach(category => { %>
+            <li>
+                <a href=<%= category.url %>>
+                    <%= category.name %>
+                </a>
+            </li>
+            <% }) %>
+    <% } %>
+    
+
+</ul>
+
+
+
