@@ -3,3 +3,11 @@
   padding: 0;
   list-style: none;
 }
+
+.view {
+  height: 100vh;
+}
+
+.dynamic-div{
+  padding: 15px;
+}
