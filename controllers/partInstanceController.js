@@ -13,7 +13,22 @@ exports.partinstance_list = asyncHandler(async (req, res, next) => {
 
 //Display details of a specific partinstance.
 exports.partinstance_detail = asyncHandler(async (req, res, next) => {
-    res.send(`To be implemented: PartInstance details ${req.params.id}`)  
+  
+    const partInstance = await PartInstance.findById(req.params.id)
+      .populate('part')
+      .exec();
+    
+    if (partInstance === null){
+      const err = new Error('Unit not found')
+      err.status = 404
+      return next(err)
+    }  
+
+    res.render('partinstance_detail', {
+      title: 'Product:',
+      partinstance: partInstance,
+    })
+     
   })
 
   //Display partinstance create form.
