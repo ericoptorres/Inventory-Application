@@ -1,0 +1,28 @@
+<h1><%= part.name %> </h1>
+
+<p> <strong>Description: </strong> <%= part.description %></p>
+
+<p> <strong>Price: </strong> <%= part.price %> USD</p>
+
+<p> <strong>Category: </strong> <a href=<%= part.category.url %>> <%= part.category.name %> </a></p>
+
+
+
+
+<div style='margin-left:20px;margin-top:20px'>
+    <h4>Units</h4>
+
+    <% if (part_instances != '') {%>
+        <% part_instances.forEach(part => { %>
+            <hr>
+            <p> <%= part.status  %> </p>
+            <p>
+                <strong>ID: </strong> <a href=<%= part.url %>>  <%= part.productID  %></a> 
+            </p>
+
+        <% }) %>
+    <% } else {%>
+        <p>There are no units from this product</p>
+    <% } %>
+
+</div>

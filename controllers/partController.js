@@ -44,7 +44,25 @@ exports.part_list = asyncHandler(async (req, res, next) => {
 
 //Display details of a specific part.
 exports.part_detail = asyncHandler(async (req, res, next) => {
-    res.send(`To be implemented: part details ${req.params.id}`)  
+
+  const [part, partInstances] = await Promise.all([
+    Part.findById(req.params.id).populate('category').exec(),
+    PartInstance.find({part: req.params.id}).exec()
+  ])
+
+  if (part === null){
+    const err = new Error('No part found')
+    err.status = 404
+    return next(err)
+  }
+
+  res.render('part_detail', {
+    title: part.name,
+    part: part,
+    part_instances: partInstances
+  })
+
+ 
   })
 
   //Display part create form.
