@@ -3,6 +3,7 @@ const PartInstance = require('../models/partinstance')
 const Category = require('../models/category')
 
 const asyncHandler = require('express-async-handler')
+const {body, validateResult, validationResult} = require('express-validator')
 
 
 exports.index = asyncHandler(async (req, res, next) => {
@@ -67,13 +68,74 @@ exports.part_detail = asyncHandler(async (req, res, next) => {
 
   //Display part create form.
 exports.part_create_get = asyncHandler(async (req, res, next) => {
-    res.send("To be implemented: part create GET")  
+    const [allParts, allCategories] = await Promise.all([
+      Part.find().sort({ name: 1}).exec(),
+      Category.find().sort({ name: 1}).exec(),
+    ])
+
+    res.render('part_form', {
+      title: 'Create Part',
+      parts: allParts,
+      categories: allCategories,
+    })
   })
 
   //Handle part create on POST.
-exports.part_create_post = asyncHandler(async (req, res, next) => {
-    res.send("To be implemented: part create POST")  
-  })
+exports.part_create_post = [
+
+  //Validate and sanitize fields
+  body('name', 'Name must not be empty.')
+    .trim()
+    .isLength({ min: 1})
+    .escape(),
+  body('category', 'Author must not be empty.')
+    .trim()
+    .isLength({ min: 1})
+    .escape(),
+  body('description', 'Description must not be empty.')
+    .trim()
+    .isLength({ min: 1})
+    .escape(),
+  body('price', 'Price must not be empty') 
+    .trim()
+    .isLength({ min: 1})
+    .escape(),
+
+  //Process request after validation and sanitization.
+  
+  asyncHandler(async (req, res, next) => {
+    //Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    //Create a Part object with escaped and trimmed data.
+    const part = new Part({
+      name: req.body.name,
+      category: req.body.category,
+      description: req.body.description,
+      price: req.body.price,
+    })
+
+    if (!errors.isEmpty()){
+      //There are erros. Render form again with sanitized values/error messages
+
+      //Get all categories for form.
+      const allCategories = await Category.find().sort({ name: 1}).exec()
+
+      res.render('part_form', {
+        title: 'Create Part',
+        categories: allCategories,
+        part: part,
+        errors: errors.array(),
+      })
+
+    } else {
+      //Data from form is valid. Save part.
+      await Part.save()
+      res.redirect(part.url)
+    }
+    
+  }),
+]
 
 
     //Display part delete form on GET

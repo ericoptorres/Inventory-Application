@@ -7,8 +7,10 @@ const PartSchema = new Schema({
   category: { type: Schema.Types.ObjectId, ref: "Category", required: true},
   description: { type: String, required: true},
   price: { type: Number, required: true },
-  number_in_stock: { type: Number, required: true }
+  number_in_stock: { type: Number}
 });
+
+//number_in_stock was required before
 
 
 
